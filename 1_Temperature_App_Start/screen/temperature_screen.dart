@@ -7,7 +7,21 @@ class TemperatureScreen extends StatefulWidget {
   State<TemperatureScreen> createState() => _TemperatureScreenState();
 }
 
-class _TemperatureScreenState extends State<TemperatureScreen> {
+ class _TemperatureScreenState extends State<TemperatureScreen> {
+  String result = '';
+
+  void convert(String value) {
+    setState(() {
+      final celsius = double.tryParse(value);
+      if (celsius == null) {
+        result = "No Value";
+      } else {
+        final fahrenheit = (celsius * 9 / 5) + 32;
+        String finalAnswer = fahrenheit.toStringAsFixed(2); // it gives only .00
+        result = "$finalAnswer °F";
+      }
+    });
+  } 
  
   final BoxDecoration textDecoration = BoxDecoration(
     color: Colors.white,
@@ -48,7 +62,8 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
           const SizedBox(height: 10),
           TextField(
             decoration: inputDecoration,
-            style: const TextStyle(color: Colors.white)
+            style: const TextStyle(color: Colors.white),
+            onChanged: convert,
           ),
           const SizedBox(height: 30),
           const Text("Temperature in Fahrenheit:"),
@@ -56,7 +71,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
           Container(
               padding: const EdgeInsets.all(10),
               decoration: textDecoration,
-              child: Text("TODO !!"))
+              child: Text(result.isEmpty ? "Result" : result))
         ],
       )),
     );
