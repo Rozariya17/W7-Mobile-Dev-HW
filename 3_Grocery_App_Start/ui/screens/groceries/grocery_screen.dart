@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../data/mock_grocery_data.dart';
+import '../../../models/grocery.dart';
+import 'grocery_tile.dart';
 
 class GroceryScreen extends StatefulWidget {
   const GroceryScreen({super.key});
@@ -10,7 +12,6 @@ class GroceryScreen extends StatefulWidget {
 
 class _GroceryScreenState extends State<GroceryScreen> {
   void onCreate() {
-    
     // ---------------------------------------------
     // Navigate to the form screen using showModalBottomSheet
     // ---------------------------------------------
@@ -28,12 +29,19 @@ class _GroceryScreenState extends State<GroceryScreen> {
       //  For each grocery items, create a GroceryTile (grocery_tile.dart)
       // ---------------------------------------------
       // https://api.flutter.dev/flutter/widgets/ListView-class.html
+      content = ListView.builder(
+        itemCount: allGroceryItems.length,
+        itemBuilder: (context, index) =>
+            GroceryTile(item: allGroceryItems[index]),
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Groceries'),
-        actions: [IconButton(onPressed: () => {}, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(onPressed: onCreate, 
+          icon: const Icon(Icons.add))],
       ),
       body: content,
     );
